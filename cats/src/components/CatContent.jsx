@@ -1,24 +1,32 @@
 import { useEffect } from "react";
 import Search from "./Search";
 import { useState } from "react";
+import { fetchCatImages } from "../api";
 
 function CatContent() {
-  
+  const [catList, setCatList] = useState([]);
+  const [err, setErr] = useState(null);
+  const [searchQuery, setSearchQuery] = useState({ breed: "" });
 
   useEffect(() => {
-    fetch(`https://api.thecatapi.com/v1/breeds?limit=10&page=0`);
-  }, [])
-    .then((result) => {
-      result.json();
-    })
-    .then((data) => {
-      console.log(data, "<<<< data");
-      setBreedSearchResult(result);
-    });
+    fetchCatImages()
+      .then((catsFromAPI) => {
+        setCatList(catsFromAPI);
+      })
+      .catch((err) => {
+        setErr(err);
+        console.log(err);
+      });
+  }, []);
+  console.log(searchQuery, "<<< search query");
+
+  if (err) {
+    return <Error err={err} />;
+  }
 
   return (
     <div>
-      <Search />
+      <Search setSearchQuery={setSearchQuery} />
     </div>
   );
 }

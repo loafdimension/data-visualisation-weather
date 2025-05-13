@@ -1,33 +1,38 @@
 import { useState } from "react";
 
-function Search() {
-  const [searchResult, setSearchResult] = useState("");
+const Search = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
   const handleChange = (event) => {
-    setSearchResult(event.target.value);
+    setSearchQuery(event.target.value);
+    console.log(searchQuery, "<<< search query");
   };
 
   return (
-    <div>
+    <>
       <form className="search-form" onSubmit={handleSubmit}>
         <input
           placeholder="Search by breed"
+          name="breed-type"
           type="text"
           onChange={handleChange}
         ></input>
+        <input
+          placeholder="Search by temprament"
+          name="temprament-type"
+          type="text"
+        ></input>
+        <input
+          placeholder="Search by country of origin"
+          name="country-of-origin-type"
+          type="text"
+        ></input>
+        <input type="submit" value="Search"></input>
       </form>
-      <form className="search-form">
-        <input placeholder="Search by temprament" type="text"></input>
-      </form>
-      <form className="search-form">
-        <input placeholder="Search by country of origin" type="text"></input>
-      </form>
-      <input type="submit" value="Search"></input>
-    </div>
+    </>
   );
-}
+};
 
 export default Search;
